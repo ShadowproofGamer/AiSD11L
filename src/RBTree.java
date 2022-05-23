@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class RBTree {
@@ -64,18 +65,25 @@ public class RBTree {
         //DONE?
     }
 
+    public void testInsert(String word){
+        if (root!=null)
+            treeInsert(root, new Node(word));
+        else root=new Node(word);
+        preorder();
+        System.out.println();
+    }
+
     private void treeInsert(Node root, Node x) {
-        if (root==null)root=x;
-        else if (root.value.equals(x.value)) {
+        if (root.value.equals(x.value)) {
             root.row.add(x.row.get(0));
-        } else if (root.value.compareTo(x.value) > 0) {
+        } else if (root.value.compareTo(x.value) < 0) {
             if (root.right == null) {
                 root.right = x;
                 x.parent = root;
             } else {
                 treeInsert(root.right, x);
             }
-        } else if (root.value.compareTo(x.value) < 0) {
+        } else if (root.value.compareTo(x.value) > 0) {
             if (root.left == null) {
                 root.left = x;
                 x.parent = root;
@@ -84,6 +92,18 @@ public class RBTree {
             }
         }
         //DONE?
+    }
+
+    public void preorder() {
+        preorderRecursive(root);
+    }
+
+    private void preorderRecursive(Node root) {
+        if (root != null) {
+            System.out.print(root.value + " ");
+            preorderRecursive(root.left);
+            preorderRecursive(root.right);
+        }
     }
 
     private void rotateLeft(Node root, Node x) {
@@ -155,7 +175,7 @@ public class RBTree {
         private Node parent = null;
         private Node left = null;
         private Node right = null;
-        private String value = null;
+        private String value;
         private boolean color = false;
         private ArrayList<Integer> row = new ArrayList<>();
 
