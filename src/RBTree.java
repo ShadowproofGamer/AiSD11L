@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class RBTree {
@@ -7,45 +6,45 @@ public class RBTree {
     public RBTree() {
 
     }
+
     /**
-        RB-Insert(root, x)
-        Tree-Insert(root,x)
-        color[x] := RED
-    while x <> root and color[p[x]] = RED do
-                if p[x] = left[p[p[x]]] then
-        y := right[p[p[x]]]
-                if color[y] = RED then // przypadek 1
-        color[p[x]] := BLACK // przypadek 1
-        color[y] := BLACK // przypadek 1
-        color[p[p[x]]] := RED // przypadek 1
-        x := p[p[x]]
-                else if x = right[p[x]] then
-        x := p[x] // przypadek 2
-        Left-Rotate(root,x) // przypadek 2
-        color[p[x]] := BLACK // przypadek 3
-        color[p[p[x]]] := RED // przypadek 3
-        Right-Rotate(root, p[p[x]]) { case 3}
-    else ....{ to samo co po then z zamianą „right” oraz
-    „left”}
-        color[root] := BLACK
-    */
+     * RB-Insert(root, x)
+     * Tree-Insert(root,x)
+     * color[x] := RED
+     * while x <> root and color[p[x]] = RED do
+     * if p[x] = left[p[p[x]]] then
+     * y := right[p[p[x]]]
+     * if color[y] = RED then // przypadek 1
+     * color[p[x]] := BLACK // przypadek 1
+     * color[y] := BLACK // przypadek 1
+     * color[p[p[x]]] := RED // przypadek 1
+     * x := p[p[x]]
+     * else if x = right[p[x]] then
+     * x := p[x] // przypadek 2
+     * Left-Rotate(root,x) // przypadek 2
+     * color[p[x]] := BLACK // przypadek 3
+     * color[p[p[x]]] := RED // przypadek 3
+     * Right-Rotate(root, p[p[x]]) { case 3}
+     * else ....{ to samo co po then z zamianą „right” oraz
+     * „left”}
+     * color[root] := BLACK
+     */
     public void insert(Node root, Node x) {
         treeInsert(root, x);
         //kod z wykładu:
-        while (x!=root && !x.parent.color){
-            if (x.parent == x.parent.parent.left){
+        while (x != root && !x.parent.color) {
+            if (x.parent == x.parent.parent.left) {
                 Node y = x.parent.parent.right;
-                if (!y.color){
-                    x.parent.color=true;
-                    y.color=true;
-                    x.parent.parent.color=false;
-                    x=x.parent.parent;
-                }
-                else if (y.color){
-                    x.parent.color=true;
-                    y.color=true;
-                    x.parent.parent.color=false;
-                    x=x.parent.parent;
+                if (!y.color) {
+                    x.parent.color = true;
+                    y.color = true;
+                    x.parent.parent.color = false;
+                    x = x.parent.parent;
+                } else if (y.color) {
+                    x.parent.color = true;
+                    y.color = true;
+                    x.parent.parent.color = false;
+                    x = x.parent.parent;
                 }
             }
         }
@@ -65,12 +64,15 @@ public class RBTree {
         //DONE?
     }
 
-    public void testInsert(String word){
-        if (root!=null)
-            treeInsert(root, new Node(word));
-        else root=new Node(word);
-        preorder();
-        System.out.println();
+    public void insertBST(String word, int row) {
+        Node x = new Node(word);
+        x.row.add(row);
+        if (root != null)
+            treeInsert(root, x);
+        else root = x;
+        //preorderBST();
+        //System.out.println();
+        //DONE
     }
 
     private void treeInsert(Node root, Node x) {
@@ -91,27 +93,47 @@ public class RBTree {
                 treeInsert(root.left, x);
             }
         }
-        //DONE?
+        //DONE
+    }
+
+    public void preorderBST() {
+        preorderRecursiveBST(root);
+        //DONE
+    }
+
+    private void preorderRecursiveBST(Node root) {
+        if (root != null) {
+            System.out.print(root.value + " ");
+            preorderRecursiveBST(root.left);
+            preorderRecursiveBST(root.right);
+        }
+        //DONE
     }
 
     public void preorder() {
         preorderRecursive(root);
+        //DONE
     }
 
     private void preorderRecursive(Node root) {
         if (root != null) {
-            System.out.print(root.value + " ");
+            System.out.print("\n" + root.value + " - ");
+            for (int i = 0; i < root.row.size(); i++) {
+                if (i > 0) System.out.print(", ");
+                System.out.print(root.row.get(i));
+            }
             preorderRecursive(root.left);
             preorderRecursive(root.right);
         }
+        //DONE
     }
 
     private void rotateLeft(Node root, Node x) {
-
+        //TODO
     }
 
     private void rotateRight(Node root, Node x) {
-
+        //TODO
     }
 
     /**
@@ -137,7 +159,7 @@ public class RBTree {
      */
 
     public void delete(Node T, Node z) {
-
+        //TODO
     }
 
     /**
@@ -168,20 +190,68 @@ public class RBTree {
      */
 
     public void fixup(Node T, Node x) {
-
+        //TODO
     }
 
+    public void traverseAcross() {
+        ArrayList<Node> queue = new ArrayList<>();
+        int i = 0;
+        int h = 0;
+        int j = 0;
+        if (root != null) {
+            queue.add(root);
+            while (i < queue.size()) {
+                Node temp = queue.get(i);
+                System.out.print(temp.value + " ");
+                if (temp.left != null) queue.add(temp.left);
+                if (temp.right != null) queue.add(temp.right);
+                i++;
+            }
+        }
+    }
+
+    /** test function*/
+    public void traverseAcrossTest() {
+        ArrayList<Node> queue = new ArrayList<>();
+        int i = 0;
+        int h = 0;
+        int j = 0;
+        if (root != null) {
+            queue.add(root);
+            while (i < queue.size()) {
+                Node temp = queue.get(i);
+                System.out.print(temp.value + " ");
+                if (temp.left != null) queue.add(temp.left);
+                if (temp.right != null) queue.add(temp.right);
+                i++;
+                j++;
+                if (Math.pow(2, h)==j){
+                    System.out.println();
+                    h++;
+                    j=0;
+                }
+            }
+        }
+    }
+
+
     private class Node {
+        public boolean color = false;
         private Node parent = null;
         private Node left = null;
         private Node right = null;
         private String value;
-        private boolean color = false;
         private ArrayList<Integer> row = new ArrayList<>();
 
         public Node(String value) {
 
             this.value = value;
+        }
+
+        public Node(String value, int r) {
+
+            this.value = value;
+            this.row.add(r);
         }
 
         public Node(Node p, Node left, Node right, String value) {
@@ -193,5 +263,5 @@ public class RBTree {
         }
 
     }
-
+    //DONE ?
 }
